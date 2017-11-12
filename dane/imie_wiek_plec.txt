@@ -1,0 +1,7 @@
+imie	wiek	plec
+Marek	13	M
+Franek	16	M
+Ola	14	K
+Marta	24	K
+Karol	14	M
+Ela	44	K
