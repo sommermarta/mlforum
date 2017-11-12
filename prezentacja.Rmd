@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 3. Krótka analiza danych za pomocą regresji liniowej (30 min)
 
 
-Prezentację i materiały będzie można znaleźć na moim GitHubie: <https://github.com/sommermarta/lmforum>.
+Prezentację i materiały będzie można znaleźć na moim GitHubie: <https://github.com/sommermarta/mlforum>.
 
 W razie pytań proszę o kontakt: mmartasommer@gmail.com
 
