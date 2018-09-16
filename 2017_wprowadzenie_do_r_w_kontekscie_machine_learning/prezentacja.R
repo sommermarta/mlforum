@@ -11,21 +11,46 @@
 
 c(1, 3, 4, 6, 7, 2)
 
+c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
 1:10
 
 10:1
+
+1:100
 
 seq(0, 100, by = 5)
 
 # przypisywanie wektorów do zmiennej:
 
+c(3, 5, 2)
+
 wektor <- c(3, 5, 2)
 
+wektor
+
+y <- wektor
+
 # operacje na wektorach:
+
+wektor
 
 wektor + 3
 
 wektor * 2
+
+2 * wektor
+
+x <- 2 * wektor
+X <- 2 * wektor
+
+wektor * wektor
+
+c(3, 4, 5) + c(1, 2, 3)
+c(3, 4, 5) + c(3)
+c(3, 4, 5) + 3
+c(3, 4, 5) + c(1, 2)
+c(1, 2, 1)
 
 wektor * wektor
 
@@ -33,11 +58,22 @@ wektor * wektor
 
 wektor[1]
 
+wektor[3]
+
 wektor[c(1, 3)]
+wektor[1:3]
+
+1:3
 
 wektor[c(3, 1)]
 
+wektor <- 5:20
+
+wektor[2:length(wektor)]
+
 ### Podstawowe operacje na wektorach:
+
+x <- 4
 
 x <- 2:10
 
@@ -51,12 +87,22 @@ range(x)   # minimum i maksimum
 
 min(x)   # minimium
 
+max(x)
+
+?mean
+
 ### Ramki danych:
 
 dane <- data.frame(imie = c("Marek", "Franek", "Ola"),
                    wiek = c(13, 16, 14),
                    plec = c("M", "M", "K"))   # tworzenie ramki danych:
 dane
+
+dane[3, 2]
+
+dane[c(2, 3), 2]
+
+dane[2, 1:3]
 
 dane[2, ]   # wybieranie wiersza
 
@@ -67,6 +113,8 @@ dane[c(2, 3), 3] # wybieranie wiersza i kolumny
 dane[c(2, 3), c(1, 3)]
 
 dane$wiek   # wybieranie kolumny przy pomocy nazwy kolumny
+
+dane$plec[3]
 
 colnames(dane)   # nazwy kolumn
 
@@ -79,6 +127,8 @@ dane
 read.table("./dane/imie_wiek_plec.txt")   # wczytywanie danych w dowolnym formacie
 
 read.table("./dane/imie_wiek_plec.txt", header = TRUE)   # zeby zauwazyl naglowek w tabeli
+
+nasza_tabelka <- read.table("./dane/imie_wiek_plec.txt", header = TRUE)
 
 menu <- read.csv("./dane/menu.csv") # wczytywanie danych w formacie .csv
 
@@ -104,18 +154,18 @@ menu <- read.csv("./dane/menu.csv", encoding = "UTF-8")
 ### SELECT - wybierz kolumny:
 
 # wybieranie jednej kolumny
-menu %>% 
+menu2 <- menu %>% 
     select(Category)   
 
 # wybieranie wielu kolumn
-menu %>% 
+menu3 <- menu %>% 
     select(Category,
            Calories)   
 
 ### ARRANGE - sortowanie:
 
 # wybierz dwie kolumny, a następnie posortuj po jednej z nich
-menu %>% 
+menu2 <- menu %>% 
     select(Item,
            Calories) %>% 
     arrange(Calories)
@@ -124,14 +174,15 @@ menu %>%
 menu %>% 
     select(Item,
            Calories) %>% 
-    arrange(desc(Calories))
+    arrange(desc(Calories)) -> menu2
 
 # posortuj podwóch kolumnach:
+
 menu %>% 
     select(Item,
            Calories) %>% 
     arrange(desc(Calories),
-            Item)
+            Item) -> menu3
 
 ### FILTER - wybierz wiersze spełniające określone warunki:
 
@@ -140,14 +191,14 @@ menu %>%
     filter(Calories == 100) %>% 
     select(Item,
            Category,
-           Calories)
+           Calories) -> a
 
 # wybierz dania, które mają mniej niż 100 kalorii:
 menu %>% 
     filter(Calories < 100) %>% 
     select(Item,
            Category,
-           Calories)
+           Calories) -> b
 
 # wybierz dania, które mają mniej niż 100 kalorii i nie są napojem ('Beverages'):
 menu %>% 
@@ -155,7 +206,38 @@ menu %>%
            Category != "Beverages") %>% 
     select(Item,
            Category,
-           Calories)
+           Calories) -> c
+
+1 == 1
+1 == 0
+
+1 & 1  # i
+
+1 | 1  # lub
+
+menu %>% 
+    filter(Calories < 100,
+           Category != "Beverages") %>% 
+    select(Item,
+           Category,
+           Calories) -> c
+
+menu %>% 
+    filter(Category %in% c("Beverages", "Breakfast")) %>% 
+    select(Item,
+           Category,
+           Calories) -> c
+
+c(1, 1, 0) & c(1, 0, 0)
+
+c(TRUE, FALSE)
+c(1, 3, 5, 6)
+c(3.14, 5.67)
+c("a;efi", ";kdf")
+
+c(3, "5775")
+
+as.numeric(c("454", "875"))
 
 # wybierz dania, które mają mniej niż 100 kalorii, nie są napojem ('Beverages') i posortuj po liczbie kalorii:
 menu %>% 
@@ -168,7 +250,7 @@ menu %>%
 
 # znajdź produkt zawierający najwięcej żelaza:
 menu %>% 
-    filter(Iron.PDV == max(Iron.PDV))
+    filter(Iron.PDV == max(Iron.PDV)) -> w
 
 ### MUTATE - stwórz nową kolumnę:
 
@@ -183,14 +265,15 @@ menu %>%
     select(Item,
            Total.Fat, 
            Total.Fat.PDV) %>% 
-    mutate(dzienna_dawka_tluszczu = round(Total.Fat*100/Total.Fat.PDV))
+    mutate(dzienna_dawka_tluszczu = round(Total.Fat*100/Total.Fat.PDV),
+           a = Total.Fat*2) -> m
 
 # stwórzmy nową kolumnę, w której będziemy mieć zawartość tłuszczu, a w nawiasie jaka to jest procentowa dzienna dawka:
 menu %>% 
     select(Item,
            Total.Fat, 
            Total.Fat.PDV) %>% 
-    mutate(Fat = paste0(Total.Fat, " (", Total.Fat.PDV, "%)"))
+    mutate(Fat = paste0(Total.Fat, " (", Total.Fat.PDV, "%)")) -> m
 
 ### SUMMARISE - podsumuj (stwórz nową tabelę)
 
@@ -205,7 +288,7 @@ menu %>%
 
 # policzmy ile jest dań:
 menu %>% 
-    summarise(n())
+    summarise(ile_dan = n())
 
 ### GROUP_BY - licz coś w grupach
 
@@ -218,7 +301,8 @@ menu %>%
 # policzmy ile jest dań w podziale na kategorie:
 menu %>% 
     group_by(Category) %>% 
-    summarise(n())
+    summarise(ile_dan = n()) %>% 
+    arrange(ile_dan)
 
 # znajdź produkt zawierający najwięcej żelaza w danej kategorii:
 menu %>% 
@@ -270,16 +354,18 @@ pairs(Volume ~ Girth + Height, data = trees)
 
 # sprawdźmy korelację:
 
-cor(trees$Girth, trees$Volume)
-cor(trees$Height, trees$Volume)
+cor(trees$Girth, trees$Volume) # 0.9671194
+
+cor(trees$Height, trees$Volume) # 0.5982497
 
 # dopasujmy model liniowy dla kazdej z tych zmiennych oddzielnie:
 
 lg <- lm(Volume ~ Girth, data = trees)
-lh <- lm(Volume ~ Height, data = trees)
+
+# lh <- lm(Volume ~ Height, data = trees)
 
 summary(lg)
-summary(lh) # widac, ze R^2 dla modelu lg było lepsze
+# summary(lh) # widac, ze R^2 dla modelu lg było lepsze
 
 # narysujmy dopasowane krzywe:
 
